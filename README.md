@@ -14,4 +14,16 @@ I aim to keep these components as separate as possible so they can be modified/a
 
 
 ## Installation
-You will need a Reddit account for the scraper to work. Please be aware that Reddit has sophisticated ban evasion systems. Your computer/IP address can be banned from reddit. For 100% safety I would *highly* reccomend using a proxy and a brand new Reddit account when scraping.
+1. **Clone the repository**
+2. **Create a virtual environment:**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+3. **Install dependencies:**
+   ```bash
+   pip install selenium python-dotenv
+   ```
+4. **Configuration:** Create a `.env` file with your `REDDIT_USERNAME` and `REDDIT_PASSWORD`.
+
+**Safety Warning:** You will need a Reddit account for the scraper to work. Please be aware that Reddit has sophisticated ban evasion systems. Your computer/IP address can be banned from reddit. For 100% safety I would *highly* reccomend using a proxy and a brand new Reddit account when scraping.

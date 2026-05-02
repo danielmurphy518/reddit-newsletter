@@ -1,3 +1,5 @@
 sxx.md
 .env.example
 .env
+/venv/bin
+/venv
