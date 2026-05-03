@@ -65,8 +65,16 @@ def main():
     except Exception as e:
         logger.error(f"An error occurred during the login process: {e}", exc_info=True)
     
-    # Adding a brief pause so you can visually confirm it worked before the script terminates
-    time.sleep(99)
+    # Generate a random sleep duration between 1 and 67 seconds
+    random_sleep_duration = random.randint(1, 67)
+    logger.info(f"Sleeping for {random_sleep_duration} seconds before navigating to the next subreddit...")
+    time.sleep(random_sleep_duration)
+    
+    new_subreddit = 'triplej'
+    logger.info(f"Navigating to r/{new_subreddit}...")
+    driver.get(f"https://www.reddit.com/r/{new_subreddit}")
+    
+    time.sleep(99) # Keep this for now to observe the new page
     #driver.quit()
 
 if __name__ == "__main__":
