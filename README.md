@@ -22,8 +22,15 @@ I aim to keep these components as separate as possible so they can be modified/a
    ```
 3. **Install dependencies:**
    ```bash
-   pip install selenium python-dotenv
+   pip install selenium python-dotenv openai
    ```
-4. **Configuration:** Create a `.env` file with your `REDDIT_USERNAME` and `REDDIT_PASSWORD`.
+4. **Configuration:** Create a `.env` file with the following:
+   ```env
+   OPENAI_API_KEY=your_api_key_here
+   ```
+
+## Usage
+1. Run the scraper: `python3 main.py --subreddit triplej`
+2. Process the results: `python3 process_posts.py`
 
 **Safety Warning:** You will need a Reddit account for the scraper to work. Please be aware that Reddit has sophisticated ban evasion systems. Your computer/IP address can be banned from reddit. For 100% safety I would *highly* reccomend using a proxy and a brand new Reddit account when scraping.

@@ -3,3 +3,4 @@ sxx.md
 .env
 /venv/bin
 /venv
+/selenium_profile
