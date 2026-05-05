@@ -50,6 +50,8 @@ def main():
     For each individual post, provide a concise summary of its content and a synthesis of the key points being discussed in the comments.
     Please format the response clearly so that the information is presented per post.
 
+    At the end of the newsletter, please add a brief summary section titled "Mentioned Artists" that lists the names of all the musical artists or bands mentioned in these posts and comments.
+
     Data:
     {content}
     """

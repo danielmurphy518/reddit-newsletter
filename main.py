@@ -137,8 +137,7 @@ def main():
     for pid, data in posts_data.items():
         logger.info(f"Found: {data['title']} - {data['link']}")
 
-    logger.info("Scraping complete. The browser will remain open for your inspection.")
-    input("Press Enter in this terminal to close the browser and exit the script...")
+    logger.info("Scraping complete. Closing browser.")
     driver.quit()
 
 if __name__ == "__main__":

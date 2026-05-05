@@ -4,3 +4,5 @@ sxx.md
 /venv/bin
 /venv
 /selenium_profile
+newsletter_summary.txt
+scraped_reddit_posts.csv
