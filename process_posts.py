@@ -37,7 +37,7 @@ def main():
         return
 
     client = OpenAI(api_key=api_key)
-    csv_path = "/Users/danielmurphy/Documents/Portfolio/reddit-newsletter/scraped_reddit_posts.csv"
+    csv_path = "scraped_reddit_posts.csv"
     
     logger.info("Loading data from CSV...")
     content = load_posts_from_csv(csv_path)
@@ -64,7 +64,7 @@ def main():
         print(response.choices[0].message.content)
 
         # Save the summary to a text file
-        output_path = "/Users/danielmurphy/Documents/Portfolio/reddit-newsletter/newsletter_summary.txt"
+        output_path = "newsletter_summary.txt"
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(response.choices[0].message.content)
         logger.info(f"Summary successfully saved to {output_path}")

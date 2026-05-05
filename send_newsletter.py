@@ -88,7 +88,7 @@ def main():
     load_dotenv()
     
     # Path to the generated newsletter summary
-    file_path = "/Users/danielmurphy/Documents/Portfolio/reddit-newsletter/newsletter_summary.txt"
+    file_path = "newsletter_summary.txt"
     
     if not os.path.exists(file_path):
         logger.error(f"Newsletter file not found at: {file_path}")
