@@ -4,6 +4,8 @@ import logging
 import re
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import argparse
+from datetime import datetime
 from dotenv import load_dotenv
 from mjml import mjml2html
 
@@ -14,7 +16,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def format_as_html(raw_text):
+def get_args():
+    parser = argparse.ArgumentParser(description="Send Reddit Newsletter Email")
+    parser.add_argument("--subreddit", type=str, default="triplej", help="Subreddit to send newsletter for")
+    return parser.parse_args()
+
+def format_as_html(raw_text, subreddit):
     """Converts the plain text/markdown summary into a styled HTML newsletter using MJML."""
     
     # 0. Force specific titles to be standard headers so they get centered
@@ -76,7 +83,7 @@ def format_as_html(raw_text):
         <mj-section padding-top="40px" padding-bottom="10px">
           <mj-column>
             <mj-text align="center" color="#ff4500" font-size="34px" font-weight="800" letter-spacing="-1px" padding-bottom="0px">
-              Reddit Daily Digest
+              r/{subreddit} Daily Digest
             </mj-text>
 
           </mj-column>
@@ -143,10 +150,15 @@ def send_email(html_content, subject="Daily Reddit Newsletter"):
         logger.error(f"Failed to send email: {e}")
 
 def main():
+    args = get_args()
+    subreddit = args.subreddit
     load_dotenv()
     
+    current_date = datetime.now().strftime("%Y-%m-%d")
+    output_dir = os.path.join("output", subreddit, current_date)
+    
     # Path to the generated newsletter summary
-    file_path = "newsletter_summary.txt"
+    file_path = os.path.join(output_dir, "newsletter_summary.txt")
     
     if not os.path.exists(file_path):
         logger.error(f"Newsletter file not found at: {file_path}")
@@ -157,8 +169,8 @@ def main():
         raw_text = f.read()
 
     # Wrap the raw OpenAI output in our ideal HTML format
-    html_email = format_as_html(raw_text)
-    send_email(html_email)
+    html_email = format_as_html(raw_text, subreddit)
+    send_email(html_email, subject=f"Daily Reddit Newsletter: r/{subreddit} - {current_date}")
 
 if __name__ == "__main__":
     main()

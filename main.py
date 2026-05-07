@@ -122,7 +122,11 @@ def main():
 
     # Export to CSV
     if posts_data:
-        csv_file = "scraped_reddit_posts.csv"
+        current_date = datetime.now().strftime("%Y-%m-%d")
+        output_dir = os.path.join("output", new_subreddit, current_date)
+        os.makedirs(output_dir, exist_ok=True)
+        
+        csv_file = os.path.join(output_dir, "scraped_reddit_posts.csv")
         logger.info(f"Writing results to {csv_file}...")
         with open(csv_file, mode='w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)

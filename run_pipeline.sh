@@ -9,9 +9,9 @@ echo "==== STEP 1: Scraping Reddit ===="
 python3 main.py --subreddit $SUBREDDIT
 
 echo "==== STEP 2: Processing with LLM ===="
-python3 process_posts.py
+python3 process_posts.py --subreddit $SUBREDDIT
 
 echo "==== STEP 3: Sending Email ===="
-python3 send_newsletter.py
+python3 send_newsletter.py --subreddit $SUBREDDIT
 
 echo "✅ Pipeline complete!"

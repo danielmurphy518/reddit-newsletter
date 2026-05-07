@@ -2,6 +2,8 @@ import os
 import csv
 import logging
 from openai import OpenAI
+import argparse
+from datetime import datetime
 from dotenv import load_dotenv
 import openai
 
@@ -11,6 +13,11 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+def get_args():
+    parser = argparse.ArgumentParser(description="Process Reddit posts with LLM")
+    parser.add_argument("--subreddit", type=str, default="triplej", help="Subreddit to process")
+    return parser.parse_args()
 
 def load_posts_from_csv(filepath):
     """Reads the scraped CSV and formats it for the LLM."""
@@ -29,6 +36,9 @@ def load_posts_from_csv(filepath):
     return formatted_content
 
 def main():
+    args = get_args()
+    subreddit = args.subreddit
+
     load_dotenv()
     api_key = os.getenv("OPENAI_API_KEY")
     
@@ -37,8 +47,11 @@ def main():
         return
 
     client = OpenAI(api_key=api_key)
-    csv_path = "scraped_reddit_posts.csv"
     
+    current_date = datetime.now().strftime("%Y-%m-%d")
+    output_dir = os.path.join("output", subreddit, current_date)
+    csv_path = os.path.join(output_dir, "scraped_reddit_posts.csv")
+
     logger.info("Loading data from CSV...")
     content = load_posts_from_csv(csv_path)
     
@@ -66,7 +79,8 @@ def main():
         print(response.choices[0].message.content)
 
         # Save the summary to a text file
-        output_path = "newsletter_summary.txt"
+        os.makedirs(output_dir, exist_ok=True)
+        output_path = os.path.join(output_dir, "newsletter_summary.txt")
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(response.choices[0].message.content)
         logger.info(f"Summary successfully saved to {output_path}")
