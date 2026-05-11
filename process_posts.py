@@ -58,8 +58,11 @@ def main():
     if not content:
         return
 
+    is_monday = datetime.now().weekday() == 0
+    time_period = "over the weekend (last 3 days)" if is_monday else "the last 24 hours"
+
     prompt = f"""
-    You are a professional newsletter editor. Below is a list of Reddit posts and their top comments from the last 24 hours.
+    You are a professional newsletter editor. Below is a list of Reddit posts and their top comments from {time_period}.
     For each individual post, provide a concise summary of its content and a synthesis of the key points being discussed in the comments.
     Please format the response clearly so that the information is presented per post.
 

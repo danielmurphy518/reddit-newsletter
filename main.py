@@ -44,11 +44,13 @@ def main():
     logger.info(f"Navigating to {subreddit_url}...")
     driver.get(subreddit_url)
     
-    # Scraping logic for the last 24 hours
-    logger.info(f"Scraping posts from the last 24 hours in r/{new_subreddit}...")
+    # Scraping logic based on day of week
+    is_monday = datetime.now().weekday() == 0
+    hours_back = 72 if is_monday else 24
+    logger.info(f"Scraping posts from the last {hours_back} hours in r/{new_subreddit}...")
     posts_data = {}
     processed_ids = set()
-    cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
+    cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours_back)
     stop_scraping = False
     
     # Scroll and collect posts
@@ -85,7 +87,7 @@ def main():
                     post_time = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
                     
                     if post_time < cutoff_time:
-                        logger.info(f"Reached a post older than 24 hours ({post_time}). Stopping.")
+                        logger.info(f"Reached a post older than {hours_back} hours ({post_time}). Stopping.")
                         stop_scraping = True
                         break
                     

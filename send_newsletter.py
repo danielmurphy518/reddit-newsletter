@@ -21,7 +21,7 @@ def get_args():
     parser.add_argument("--subreddit", type=str, default="triplej", help="Subreddit to send newsletter for")
     return parser.parse_args()
 
-def format_as_html(raw_text, subreddit):
+def format_as_html(raw_text, subreddit, digest_type="Daily Digest"):
     """Converts the plain text/markdown summary into a styled HTML newsletter using MJML."""
     
     # 0. Force specific titles to be standard headers so they get centered
@@ -69,7 +69,7 @@ def format_as_html(raw_text, subreddit):
     mjml_template = f"""
     <mjml>
       <mj-head>
-        <mj-title>Reddit Daily Digest</mj-title>
+        <mj-title>Reddit {digest_type}</mj-title>
         <mj-attributes>
           <mj-all font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" />
         </mj-attributes>
@@ -83,7 +83,7 @@ def format_as_html(raw_text, subreddit):
         <mj-section padding-top="40px" padding-bottom="10px">
           <mj-column>
             <mj-text align="center" color="#ff4500" font-size="34px" font-weight="800" letter-spacing="-1px" padding-bottom="0px">
-              r/{subreddit} Daily Digest
+              r/{subreddit} {digest_type}
             </mj-text>
 
           </mj-column>
@@ -168,9 +168,12 @@ def main():
     with open(file_path, "r", encoding="utf-8") as f:
         raw_text = f.read()
 
+    is_monday = datetime.now().weekday() == 0
+    digest_type = "Weekend Digest" if is_monday else "Daily Digest"
+
     # Wrap the raw OpenAI output in our ideal HTML format
-    html_email = format_as_html(raw_text, subreddit)
-    send_email(html_email, subject=f"Daily Reddit Newsletter: r/{subreddit} - {current_date}")
+    html_email = format_as_html(raw_text, subreddit, digest_type)
+    send_email(html_email, subject=f"Reddit {digest_type}: r/{subreddit} - {current_date}")
 
 if __name__ == "__main__":
     main()
